@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.example.johninocente_comp304lab3_ex1.Model.Weather
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity()
     companion object
     {
         var weatherDataList =  mutableStateListOf<Weather>()
-
+        var deletedCard = mutableStateOf(false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?)

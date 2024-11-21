@@ -101,17 +101,13 @@ fun WeatherListCard(
                 dismissMsg = "Cancel",
                 onConfirm = {
                     showAlert = false
-                    isSuccess = DeleteCity(cityWeatherViewModel, weather)
+                    DeleteCity(cityWeatherViewModel, weather)
+                    onDelete()
                 },
                 onDismiss = {
                     showAlert = false
                 }
             )
-        }
-
-        if (isSuccess)
-        {
-            onDelete()
         }
     }
 }
@@ -140,11 +136,8 @@ fun DeleteCity(cityWeatherViewModel: CityWeatherViewModel, weather: Weather?) : 
 {
     var isSuccess = false
     var cities = cityWeatherViewModel.getDBCities()
-    //val name = weather?.name
-
 
     val cityName = weather?.name?.lowercase()
-    val country = weather?.sys?.country?.lowercase()
 
     val city :City? = cities.find { it.name.lowercase() == cityName}
 
@@ -232,9 +225,6 @@ fun WeatherDetails(wObj: Weather?)
     }
 }
 
-
-
-
 private fun getBackgroundImage(wObj: Weather?): Int
 {
     if (wObj != null) {
@@ -281,8 +271,6 @@ fun GoToWeatherScreenUI(navController: NavController, cityWeatherViewModel: City
 
     navController.navigate(NavDestinations.WeatherScreen.route)
 }
-
-
 
 //@Composable
 //fun WeatherListCardSample(

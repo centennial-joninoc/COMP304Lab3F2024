@@ -46,8 +46,6 @@ import kotlin.math.round
 
 @Composable
 fun WeatherScreen(navController: NavController, cityWeatherViewModel: CityWeatherViewModel){
-//    weatherViewModel.getWeather(cityName)
-
     //Default City is in Toronto Canada ON
     if (cityWeatherViewModel.weather == null) {
         cityWeatherViewModel.getWeather("Toronto, ON, Canada")
@@ -60,7 +58,6 @@ fun WeatherScreen(navController: NavController, cityWeatherViewModel: CityWeathe
 @Composable
 private fun MainUI(navController: NavController, cityWeatherViewModel : CityWeatherViewModel)
 {
-    //TODO: Array of Cities
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { TopAppBarUI(navController = navController) }
@@ -176,8 +173,6 @@ private fun TopAppBarUI(navController: NavController)
 private fun GoBackToHomeScreen(navController: NavController)
 {
     navController.navigate(NavDestinations.HomeScreen.route)
-    //navController.navigateUp()
-    //navController.popBackStack()
 }
 
 @Composable

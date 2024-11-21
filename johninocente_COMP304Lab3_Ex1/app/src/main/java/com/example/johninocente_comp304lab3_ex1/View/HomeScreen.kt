@@ -1,5 +1,6 @@
 package com.example.johninocente_comp304lab3_ex1.View
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,8 +25,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.johninocente_comp304lab3_ex1.MainActivity.Companion.deletedCard
 import com.example.johninocente_comp304lab3_ex1.Navigation.NavDestinations
 import com.example.johninocente_comp304lab3_ex1.ViewModel.CityWeatherViewModel
 
@@ -42,6 +45,7 @@ fun HomeScreen(
     } else {
 
         //make this a suspend function, make a mutable array
+
         cityWeatherViewModel.getWeatherList(cityDataList)
     }
 
@@ -93,47 +97,35 @@ private fun ContentUI(
     innerPaddingValues: PaddingValues,
     cityWeatherViewModel: CityWeatherViewModel
 ) {
-    var showCard by remember { mutableStateOf(false) }
-    WeatherList(navController, cityWeatherViewModel, innerPaddingValues, onDeleteCard = {
-        showCard = true
+    WeatherList(navController, cityWeatherViewModel, innerPaddingValues,
+        onDeleteCard = {
+            deletedCard.value = true
     })
 
-    if (showCard)
+
+    if (deletedCard.value)
     {
-
-        RecomposableFunction(showCard)
-        showCard = false
-
-    }
-}
-
-//A composable function to only recompose the whole screen when deleting a city
-@Composable
-fun RecomposableFunction(b: Boolean)
-{
-    var isACardDeleted by remember { mutableStateOf(false) }
-
-    if (isACardDeleted) {
         AlertDialog(
             text = {
-                Text(text = " ")
+                Text(text = "City Deleted")
             },
             onDismissRequest = {
-
+                cityWeatherViewModel.getDBCities()
+                deletedCard.value = false
             },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        isACardDeleted = false
+                        cityWeatherViewModel.getDBCities()
+                        deletedCard.value = false
                     }
                 ) {
-                    Text("")
+                    Text("OK")
                 }
             }
         )
     }
 }
-
 
 private fun searchBarUI(navController: NavController) {
     navController.navigate(NavDestinations.SearchScreen.createRoute("Toronto"))
